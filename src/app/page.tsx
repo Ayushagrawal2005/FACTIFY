@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { performFactCheck } from '@/app/actions';
 import type { FactCheckResult } from '@/types';
 import { FactCheckResults } from '@/components/fact-check-results';
-import { Loader2, Search, ArrowRight, Lightbulb, ShieldCheck } from 'lucide-react';
+import { Loader2, Search, ArrowRight, Lightbulb, ShieldCheck, Atom } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -97,7 +97,7 @@ export default function Home() {
                     >
                       {isPending ? (
                         <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          <Atom className="mr-2 h-5 w-5 animate-spin" />
                           Analyzing...
                         </>
                       ) : (
@@ -120,7 +120,7 @@ export default function Home() {
             <div className="mt-12 max-w-4xl mx-auto">
               {isPending && (
                 <div className="flex flex-col items-center justify-center gap-4 p-8 rounded-lg animate-in fade-in duration-500">
-                    <Loader2 className="h-12 w-12 animate-spin text-primary" />
+                    <Atom className="h-12 w-12 animate-spin text-primary" />
                     <p className="text-muted-foreground font-semibold">Gathering evidence and generating verdict...</p>
                 </div>
               )}
