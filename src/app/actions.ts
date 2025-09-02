@@ -19,7 +19,7 @@ const mockFactCheckApiCall = async (claim: string): Promise<{ references: string
     ],
   };
 };
-
+//
 export async function performFactCheck(
   formData: FormData
 ): Promise<{ success: boolean; data?: FactCheckResult; error?: string }> {
