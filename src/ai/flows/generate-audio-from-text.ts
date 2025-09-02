@@ -41,9 +41,9 @@ async function toWav(
   });
 }
 
-export const generateAudioFromText = ai.defineFlow(
+const generateAudioFromTextFlow = ai.defineFlow(
   {
-    name: 'generateAudioFromText',
+    name: 'generateAudioFromTextFlow',
     inputSchema: z.string(),
     outputSchema: GenerateAudioOutputSchema,
   },
@@ -72,3 +72,7 @@ export const generateAudioFromText = ai.defineFlow(
     };
   }
 );
+
+export async function generateAudioFromText(text: string): Promise<GenerateAudioOutput> {
+    return generateAudioFromTextFlow(text);
+}

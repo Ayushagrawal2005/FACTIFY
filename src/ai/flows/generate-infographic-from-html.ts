@@ -3,7 +3,7 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import { exec } from 'child_process';
-import { writeFile, unlink } from 'fs/promises';
+import { writeFile, unlink, readFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import { join } from 'path';
 
@@ -27,27 +27,29 @@ async function convertHtmlToImage(html: string): Promise<Buffer> {
         exec(`node-html-to-image-cli --input "${inputPath}" --output "${outputPath}"`, async (error, stdout, stderr) => {
             if (error) {
                 console.error(`exec error: ${error}`);
-                await unlink(inputPath);
+                await unlink(inputPath).catch(console.error);
                 return reject(error);
             }
             if (stderr) {
                 console.error(`stderr: ${stderr}`);
             }
             
-            const imageBuffer = await require('fs').promises.readFile(outputPath);
-            
-            // Clean up temporary files
-            await unlink(inputPath);
-            await unlink(outputPath);
-
-            resolve(imageBuffer);
+            try {
+                const imageBuffer = await readFile(outputPath);
+                // Clean up temporary files
+                await unlink(inputPath);
+                await unlink(outputPath);
+                resolve(imageBuffer);
+            } catch(e) {
+                reject(e);
+            }
         });
     });
 }
 
-export const generateInfographicFromHtml = ai.defineFlow(
+const generateInfographicFromHtmlFlow = ai.defineFlow(
     {
-        name: 'generateInfographicFromHtml',
+        name: 'generateInfographicFromHtmlFlow',
         inputSchema: GenerateInfographicFromHtmlInputSchema,
         outputSchema: GenerateInfographicFromHtmlOutputSchema,
     },
@@ -62,3 +64,7 @@ export const generateInfographicFromHtml = ai.defineFlow(
         }
     }
 );
+
+export async function generateInfographicFromHtml(input: GenerateInfographicFromHtmlInput): Promise<GenerateInfographicFromHtmlOutput> {
+    return generateInfographicFromHtmlFlow(input);
+}
