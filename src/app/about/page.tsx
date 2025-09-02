@@ -37,7 +37,7 @@ export default function AboutPage() {
                                 width={600}
                                 height={400}
                                 className="rounded-lg shadow-xl"
-                                data-ai-hint="team working"
+                                data-ai-hint="data analysis"
                             />
                         </div>
                     </div>

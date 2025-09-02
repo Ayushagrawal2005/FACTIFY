@@ -48,7 +48,7 @@ export default function Home() {
         <section className="relative text-center py-20 md:py-32 bg-card animate-in fade-in duration-1000">
           <div
             className="absolute inset-0 bg-cover bg-center opacity-10"
-            style={{backgroundImage: "url('https://picsum.photos/1600/900?grayscale')"}} data-ai-hint="abstract background"
+            style={{backgroundImage: "url('https://picsum.photos/1600/900?blur=2')"}} data-ai-hint="digital network"
           ></div>
           <div className="container mx-auto px-4 relative">
             <h1 className="text-4xl md:text-6xl font-bold font-headline mb-4 tracking-tight">

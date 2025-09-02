@@ -52,7 +52,7 @@ export default function ServicesPage() {
                             <CardContent>
                                 <ul className="space-y-2 text-muted-foreground">
                                     <li className="flex items-start"><CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-1 shrink-0" /><span>Presents a balanced view by showing all sides of the story.</span></li>
-                                    <li className="flex items-start"><CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-1 shrink-0" /><span>Considers context and source reputation in its analysis.</span></li>
+                                    <li className="flex items-start"><CheckCircle2 className className="h-5 w-5 text-green-500 mr-2 mt-1 shrink-0" /><span>Considers context and source reputation in its analysis.</span></li>
                                 </ul>
                             </CardContent>
                         </Card>
@@ -89,7 +89,7 @@ export default function ServicesPage() {
                                 width={600}
                                 height={500}
                                 className="rounded-lg shadow-xl"
-                                data-ai-hint="technology abstract"
+                                data-ai-hint="abstract network"
                             />
                         </div>
                         <div className="animate-in fade-in slide-in-from-right-10 duration-700 delay-400">
