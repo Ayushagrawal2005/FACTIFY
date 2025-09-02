@@ -3,9 +3,7 @@
 import { extractClaims } from '@/ai/flows/extract-claims-from-input';
 import { gatherEvidenceForClaim } from '@/ai/flows/gather-evidence-for-claim';
 import { generateFactCheckVerdict } from '@/ai/flows/generate-fact-check-verdict';
-import { generateAudioFromText } from '@/ai/flows/generate-audio-from-text';
-import { generateInfographicFromHtml } from '@/ai/flows/generate-infographic-from-html';
-import { generateInfographicHtml } from '@/ai/flows/generate-infographic-html';
+
 import type { FactCheckResult } from '@/types';
 
 // Mocks calling external fact-checking APIs
@@ -69,29 +67,4 @@ export async function performFactCheck(
     }
     return { success: false, error: 'An unexpected error occurred while communicating with the AI service.' };
   }
-}
-
-
-export async function getAudioForText(text: string): Promise<{ success: boolean; data?: string; error?: string }> {
-    if (!text) {
-        return { success: false, error: 'No text provided for audio generation.' };
-    }
-    try {
-        const result = await generateAudioFromText(text);
-        return { success: true, data: result.media };
-    } catch (e) {
-        console.error(e);
-        return { success: false, error: 'Failed to generate audio.' };
-    }
-}
-
-export async function getInfographic(result: FactCheckResult): Promise<{ success: boolean; data?: string; error?: string }> {
-    try {
-        const infographicHtml = await generateInfographicHtml(result);
-        const infographicImage = await generateInfographicFromHtml({ html: infographicHtml.html });
-        return { success: true, data: infographicImage.imageDataUri };
-    } catch (e) {
-        console.error(e);
-        return { success: false, error: 'Failed to generate infographic.' };
-    }
 }

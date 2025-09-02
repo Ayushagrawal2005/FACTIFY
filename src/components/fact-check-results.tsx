@@ -14,17 +14,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { CheckCircle2, XCircle, AlertTriangle, Scale, List, Link, Volume2, Download, Loader2 } from 'lucide-react';
+import { CheckCircle2, XCircle, AlertTriangle, Scale, Link } from 'lucide-react';
 import { Progress } from './ui/progress';
-import React, { useState, useTransition } from 'react';
-import { getAudioForText, getInfographic } from '@/app/actions';
-import { useToast } from '@/hooks/use-toast';
+import React from 'react';
 
 
-const VerdictDisplay = ({ verdict, confidence, reason, onListen, isListening }: { verdict: string, confidence: string, reason: string, onListen: () => void, isListening: boolean }) => {
+const VerdictDisplay = ({ verdict, confidence, reason }: { verdict: string, confidence: string, reason: string }) => {
   const lowerVerdict = verdict.toLowerCase();
   
   let IconComponent;
@@ -53,13 +49,7 @@ const VerdictDisplay = ({ verdict, confidence, reason, onListen, isListening }: 
         <div className="flex items-start gap-4">
           {IconComponent}
           <div className="flex-1">
-            <div className="flex justify-between items-start">
-              <CardTitle className="text-3xl font-headline">{verdict}</CardTitle>
-              <Button variant="ghost" size="icon" onClick={onListen} disabled={isListening}>
-                {isListening ? <Loader2 className="h-5 w-5 animate-spin" /> : <Volume2 className="h-5 w-5" />}
-                <span className="sr-only">Listen to verdict</span>
-              </Button>
-            </div>
+            <CardTitle className="text-3xl font-headline">{verdict}</CardTitle>
             <CardDescription className="text-base mt-1">
               {reason}
             </CardDescription>
@@ -79,67 +69,17 @@ const VerdictDisplay = ({ verdict, confidence, reason, onListen, isListening }: 
 
 export function FactCheckResults({ data }: { data: FactCheckResult }) {
   const totalSources = data.supportingEvidence.length + data.counterEvidence.length + data.references.length;
-  const [audioSrc, setAudioSrc] = useState<string | null>(null);
-  const [isListening, startAudioTransition] = useTransition();
-  const [isDownloading, startDownloadTransition] = useTransition();
-  const { toast } = useToast();
-
-  const handleListen = () => {
-    startAudioTransition(async () => {
-      const textToRead = `Verdict: ${data.verdict}. Reason: ${data.reason}`;
-      const response = await getAudioForText(textToRead);
-      if (response.success && response.data) {
-        setAudioSrc(response.data);
-        const audio = new Audio(response.data);
-        audio.play();
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Audio Generation Failed",
-          description: response.error || 'Could not generate audio for the verdict.',
-        })
-      }
-    });
-  };
-
-  const handleDownload = () => {
-    startDownloadTransition(async () => {
-        const response = await getInfographic(data);
-        if (response.success && response.data) {
-            const link = document.createElement('a');
-            link.href = response.data;
-            link.download = 'factify-infographic.png';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Infographic Download Failed",
-                description: response.error || 'Could not generate the infographic.',
-            });
-        }
-    });
-  };
-
 
   return (
     <div className="space-y-8 animate-in fade-in-0 duration-500">
-      <div className="flex justify-between items-start">
-        <div>
-          <p className="text-sm font-semibold text-primary uppercase tracking-wider">Claim Analyzed</p>
-          <h2 className="text-2xl md:text-3xl font-bold font-headline mt-1">
-            &ldquo;{data.claim}&rdquo;
-          </h2>
-        </div>
-        <Button onClick={handleDownload} disabled={isDownloading}>
-            {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-            {isDownloading ? 'Generating...' : 'Download'}
-        </Button>
+      <div>
+        <p className="text-sm font-semibold text-primary uppercase tracking-wider">Claim Analyzed</p>
+        <h2 className="text-2xl md:text-3xl font-bold font-headline mt-1">
+          &ldquo;{data.claim}&rdquo;
+        </h2>
       </div>
 
-
-      <VerdictDisplay verdict={data.verdict} confidence={data.confidenceLevel} reason={data.reason} onListen={handleListen} isListening={isListening} />
+      <VerdictDisplay verdict={data.verdict} confidence={data.confidenceLevel} reason={data.reason} />
 
       <Card>
         <CardHeader>
@@ -202,7 +142,6 @@ export function FactCheckResults({ data }: { data: FactCheckResult }) {
           </Accordion>
         </CardContent>
       </Card>
-      {audioSrc && <audio src={audioSrc} autoPlay hidden />}
     </div>
   );
 }
