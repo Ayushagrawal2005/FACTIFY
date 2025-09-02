@@ -1,5 +1,5 @@
 'use server';
-/**
+/** 
  * @fileOverview Extracts key claims from input text using AI.
  *
  * - extractClaims - Extracts claims from the given text input.

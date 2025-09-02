@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { CheckCircle2, Bot, FileText } from "lucide-react";
 import Image from "next/image";
-
+/** */
 export default function ServicesPage() {
     return (
         <div className="bg-background text-foreground">

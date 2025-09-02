@@ -7,3 +7,4 @@ export type FactCheckResult = {
   counterEvidence: string[];
   references: string[];
 };
+/** */

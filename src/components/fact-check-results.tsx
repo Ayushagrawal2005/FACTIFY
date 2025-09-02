@@ -1,5 +1,5 @@
 'use client';
-
+/** */
 import type { FactCheckResult } from '@/types';
 import {
   Card,

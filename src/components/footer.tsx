@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CheckSquare, Twitter, Linkedin, Github } from 'lucide-react';
 import { Button } from './ui/button';
-
+/** */
 export function Footer() {
   return (
     <footer className="bg-card border-t">
