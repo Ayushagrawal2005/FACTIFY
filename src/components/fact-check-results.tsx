@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -27,14 +26,14 @@ const VerdictDisplay = ({ verdict, confidence, reason }: { verdict: string, conf
   let progressValue = 50;
   
   if (lowerVerdict.includes('true') || lowerVerdict.includes('correct') || lowerVerdict.includes('accurate')) {
-    IconComponent = <CheckCircle2 className="h-10 w-10 text-accent" />;
-    colorClasses = 'border-accent/80 bg-accent/5';
+    IconComponent = <CheckCircle2 className="h-10 w-10 text-green-500" />;
+    colorClasses = 'border-green-500/80 bg-green-500/5';
   } else if (lowerVerdict.includes('false') || lowerVerdict.includes('incorrect')) {
     IconComponent = <XCircle className="h-10 w-10 text-destructive" />;
     colorClasses = 'border-destructive/80 bg-destructive/5';
   } else {
-    IconComponent = <AlertTriangle className="h-10 w-10 text-primary" />;
-    colorClasses = 'border-primary/80 bg-primary/5';
+    IconComponent = <AlertTriangle className="h-10 w-10 text-yellow-500" />;
+    colorClasses = 'border-yellow-500/80 bg-yellow-500/5';
   }
 
   const lowerConfidence = confidence.toLowerCase();
@@ -86,11 +85,11 @@ export function FactCheckResults({ data }: { data: FactCheckResult }) {
           <CardDescription>A summary of the evidence found for and against the claim. Total sources considered: {totalSources}.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full" defaultValue="supporting-evidence">
             <AccordionItem value="supporting-evidence">
               <AccordionTrigger className="text-lg">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-accent" />
+                  <CheckCircle2 className="h-5 w-5 text-green-500" />
                   Supporting Evidence ({data.supportingEvidence.length})
                 </div>
               </AccordionTrigger>
